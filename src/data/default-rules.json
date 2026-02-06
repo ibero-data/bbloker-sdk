@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "updatedAt": "2026-02-06",
+  "blockedUAs": [
+    "GPTBot",
+    "ChatGPT-User",
+    "OAI-SearchBot",
+    "CCBot",
+    "anthropic-ai",
+    "ClaudeBot",
+    "Claude-Web",
+    "Meta-ExternalAgent",
+    "Meta-ExternalFetcher",
+    "FacebookBot",
+    "facebookexternalhit",
+    "PerplexityBot",
+    "Bytespider",
+    "Google-Extended",
+    "Applebot-Extended",
+    "cohere-ai",
+    "Diffbot",
+    "ImagesiftBot",
+    "Omgilibot",
+    "Omgili",
+    "YouBot",
+    "Amazonbot",
+    "AI2Bot",
+    "Ai2Bot-Dolma",
+    "Scrapy",
+    "PetalBot",
+    "Semrushbot",
+    "AhrefsBot",
+    "MJ12bot",
+    "DotBot",
+    "Seekport",
+    "BLEXBot",
+    "DataForSeoBot",
+    "magpie-crawler",
+    "Timpibot",
+    "Velenpublicwebcrawler",
+    "Webzio-Extended",
+    "iaskspider",
+    "Kangaroo Bot",
+    "img2dataset"
+  ],
+  "blockedIPs": [
+    "20.15.240.0/20",
+    "20.171.206.0/23",
+    "40.83.2.0/23",
+    "52.230.152.0/21",
+    "20.171.207.0/24"
+  ],
+  "headerPatterns": [
+    {
+      "name": "accept",
+      "pattern": "^\\*\\/\\*$",
+      "weight": 0.3
+    },
+    {
+      "name": "accept-language",
+      "pattern": "^$",
+      "weight": 0.5
+    },
+    {
+      "name": "accept-encoding",
+      "pattern": "^$",
+      "weight": 0.4
+    }
+  ],
+  "anomalyThreshold": 0.7
+}
