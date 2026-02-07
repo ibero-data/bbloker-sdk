@@ -10,7 +10,7 @@ import { Telemetry } from './telemetry';
 import { logger } from './logger';
 
 const DEFAULTS = {
-  apiUrl: 'https://api.bbloker.com',
+  apiUrl: 'https://bbloker.com',
   syncInterval: 300_000,
   flushInterval: 10_000,
   bufferSize: 100,

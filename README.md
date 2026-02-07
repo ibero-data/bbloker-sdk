@@ -106,7 +106,7 @@ const bbloker = new Bbloker({
   apiKey: "bb-sk-...",
 
   // Optional
-  apiUrl: "https://api.bbloker.com", // self-hosted API
+  apiUrl: "https://bbloker.com", // self-hosted API
   syncInterval: 300_000, // rule sync interval (5 min)
   flushInterval: 10_000, // telemetry flush interval (10s)
   bufferSize: 100, // max fingerprints before force flush

@@ -4,7 +4,7 @@ export interface BblokerConfig {
   /** API key from bbloker dashboard (bb-sk-xxx) */
   apiKey: string;
 
-  /** API endpoint. Default: https://api.bbloker.com */
+  /** API endpoint. Default: https://bbloker.com */
   apiUrl?: string;
 
   /** Rule sync interval in ms. Default: 300_000 (5 min) */
