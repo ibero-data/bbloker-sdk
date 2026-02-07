@@ -80,7 +80,7 @@ function normalizeExpressRequest(req: Req): NormalizedRequest {
   }
 
   const forwarded = headers['x-forwarded-for']?.split(',')[0]?.trim();
-  const ip = req.ip ?? forwarded ?? req.socket?.remoteAddress ?? '0.0.0.0';
+  const ip = forwarded ?? req.ip ?? req.socket?.remoteAddress ?? '0.0.0.0';
 
   return {
     ip,

@@ -76,9 +76,9 @@ function normalizeNextRequest(req: NextRequest): NormalizedRequest {
 
   return {
     ip:
-      req.ip ??
       headers["x-forwarded-for"]?.split(",")[0]?.trim() ??
       headers["x-real-ip"] ??
+      req.ip ??
       "0.0.0.0",
     userAgent: headers["user-agent"] ?? "",
     headers,

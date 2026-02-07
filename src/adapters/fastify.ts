@@ -96,7 +96,7 @@ function normalizeFastifyRequest(req: FastifyRequest): NormalizedRequest {
   }
 
   const forwarded = headers["x-forwarded-for"]?.split(",")[0]?.trim();
-  const ip = req.ip ?? forwarded ?? "0.0.0.0";
+  const ip = forwarded ?? req.ip ?? "0.0.0.0";
 
   return {
     ip,
