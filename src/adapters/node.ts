@@ -70,7 +70,7 @@ function normalizeNodeRequest(req: IncomingMessage): NormalizedRequest {
   }
 
   const forwarded = headers["x-forwarded-for"]?.split(",")[0]?.trim();
-  const ip = forwarded ?? req.socket?.remoteAddress ?? "0.0.0.0";
+  const ip = stripIPv6Prefix(forwarded ?? headers["x-real-ip"] ?? req.socket?.remoteAddress ?? "0.0.0.0");
 
   return {
     ip,
@@ -80,6 +80,10 @@ function normalizeNodeRequest(req: IncomingMessage): NormalizedRequest {
     path: req.url ?? "/",
     method: req.method ?? "GET",
   };
+}
+
+function stripIPv6Prefix(ip: string): string {
+  return ip.startsWith("::ffff:") ? ip.slice(7) : ip;
 }
 
 export { Bbloker } from "../core/engine.js";

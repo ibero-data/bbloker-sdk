@@ -30,6 +30,9 @@ export interface BblokerConfig {
 
   /** Log level. Default: 'warn' */
   logLevel?: 'debug' | 'info' | 'warn' | 'error' | 'silent';
+
+  /** Additional User-Agent substrings to always allow (skip all checks) */
+  allowedUAs?: string[];
 }
 
 // ---- Internal types ----
@@ -68,6 +71,8 @@ export interface BlockContext {
 export interface RuleSet {
   version: number;
   updatedAt: string;
+  /** User-Agent substrings to always allow (skip all checks) */
+  allowedUAs: string[];
   /** User-Agent substrings to block */
   blockedUAs: string[];
   /** CIDR ranges to block */

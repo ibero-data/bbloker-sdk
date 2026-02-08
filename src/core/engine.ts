@@ -60,6 +60,7 @@ export class Bbloker {
       apiUrl,
       apiKey: config.apiKey,
       syncInterval,
+      allowedUAs: config.allowedUAs,
     });
 
     this.rateLimiter = new RateLimiter(rateLimit, rateLimitWindow);
@@ -80,7 +81,18 @@ export class Bbloker {
    * This is the core method — adapters call this.
    */
   analyze(req: NormalizedRequest): Decision {
-    // 1. Check User-Agent against known bot list
+    // 1. UA whitelist — if allowed and NOT also in blocklist, skip all checks
+    if (
+      req.userAgent &&
+      this.rules.isAllowedUA(req.userAgent) &&
+      !this.rules.isBlockedUA(req.userAgent)
+    ) {
+      const decision: Decision = { action: 'allow', reason: 'allowed_ua' };
+      this.report(req, decision);
+      return decision;
+    }
+
+    // 2. Check User-Agent against known bot list
     if (req.userAgent && this.rules.isBlockedUA(req.userAgent)) {
       const decision: Decision = {
         action: 'block',
@@ -91,7 +103,7 @@ export class Bbloker {
       return decision;
     }
 
-    // 2. Check IP against known bot ranges
+    // 3. Check IP against known bot ranges
     if (req.ip && this.rules.isBlockedIP(req.ip)) {
       const decision: Decision = {
         action: 'block',
@@ -102,7 +114,7 @@ export class Bbloker {
       return decision;
     }
 
-    // 3. Rate limiting
+    // 4. Rate limiting
     if (req.ip && this.rateLimiter.isExceeded(req.ip)) {
       const decision: Decision = {
         action: 'block',
@@ -113,7 +125,7 @@ export class Bbloker {
       return decision;
     }
 
-    // 4. Header anomaly detection
+    // 5. Header anomaly detection
     const anomalyScore = this.rules.headerAnomalyScore(req.headers);
     if (anomalyScore > this.rules.anomalyThreshold) {
       const decision: Decision = {
@@ -125,7 +137,7 @@ export class Bbloker {
       return decision;
     }
 
-    // 5. Allow — still report for intelligence gathering
+    // 6. Allow — still report for intelligence gathering
     const decision: Decision = { action: 'allow' };
     this.report(req, decision);
     return decision;

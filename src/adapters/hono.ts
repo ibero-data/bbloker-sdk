@@ -72,7 +72,7 @@ function normalizeHonoRequest(c: HonoContext): NormalizedRequest {
 
   const forwarded = headers["x-forwarded-for"]?.split(",")[0]?.trim();
   const cfIp = headers["cf-connecting-ip"];
-  const ip = cfIp ?? forwarded ?? headers["x-real-ip"] ?? "0.0.0.0";
+  const ip = stripIPv6Prefix(cfIp ?? forwarded ?? headers["x-real-ip"] ?? "0.0.0.0");
 
   return {
     ip,
@@ -82,6 +82,10 @@ function normalizeHonoRequest(c: HonoContext): NormalizedRequest {
     path: c.req.path,
     method: c.req.method,
   };
+}
+
+function stripIPv6Prefix(ip: string): string {
+  return ip.startsWith("::ffff:") ? ip.slice(7) : ip;
 }
 
 export { Bbloker } from "../core/engine.js";

@@ -10,14 +10,20 @@ export class RuleManager {
 
   // Pre-compiled UA patterns for fast matching
   private uaPatterns: string[] = [];
+  private allowedUAPatterns: string[] = [];
+
+  // User-provided extensions that persist across sync()
+  private userAllowedUAs: string[];
 
   constructor(config: {
     apiUrl: string;
     apiKey: string;
     syncInterval: number;
+    allowedUAs?: string[];
   }) {
     this.apiUrl = config.apiUrl;
     this.apiKey = config.apiKey;
+    this.userAllowedUAs = config.allowedUAs ?? [];
     this.rules = defaultRules as RuleSet;
     this.compilePatterns();
 
@@ -32,6 +38,10 @@ export class RuleManager {
   private compilePatterns(): void {
     // Lowercase all UA patterns for case-insensitive matching
     this.uaPatterns = this.rules.blockedUAs.map((ua) => ua.toLowerCase());
+
+    // Merge default + user-provided allowed UAs, then lowercase
+    const merged = [...(this.rules.allowedUAs ?? []), ...this.userAllowedUAs];
+    this.allowedUAPatterns = merged.map((ua) => ua.toLowerCase());
   }
 
   get current(): RuleSet {
@@ -42,6 +52,12 @@ export class RuleManager {
   isBlockedUA(ua: string): boolean {
     const lower = ua.toLowerCase();
     return this.uaPatterns.some((pattern) => lower.includes(pattern));
+  }
+
+  /** Check if a User-Agent matches any allowed pattern */
+  isAllowedUA(ua: string): boolean {
+    const lower = ua.toLowerCase();
+    return this.allowedUAPatterns.some((pattern) => lower.includes(pattern));
   }
 
   /** Check if an IP is in any blocked CIDR range */

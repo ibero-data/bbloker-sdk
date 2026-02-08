@@ -75,17 +75,22 @@ function normalizeNextRequest(req: NextRequest): NormalizedRequest {
   });
 
   return {
-    ip:
+    ip: stripIPv6Prefix(
       headers["x-forwarded-for"]?.split(",")[0]?.trim() ??
       headers["x-real-ip"] ??
       req.ip ??
-      "0.0.0.0",
+      "0.0.0.0"
+    ),
     userAgent: headers["user-agent"] ?? "",
     headers,
     headerNames,
     path: req.nextUrl.pathname,
     method: req.method,
   };
+}
+
+function stripIPv6Prefix(ip: string): string {
+  return ip.startsWith("::ffff:") ? ip.slice(7) : ip;
 }
 
 export { Bbloker } from "../core/engine.js";

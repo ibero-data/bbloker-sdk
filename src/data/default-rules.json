@@ -1,6 +1,15 @@
 {
-  "version": 1,
-  "updatedAt": "2026-02-06",
+  "version": 2,
+  "updatedAt": "2026-02-07",
+  "allowedUAs": [
+    "Googlebot",
+    "Bingbot",
+    "YandexBot",
+    "DuckDuckBot",
+    "Applebot",
+    "Slurp",
+    "Baiduspider"
+  ],
   "blockedUAs": [
     "GPTBot",
     "ChatGPT-User",
@@ -12,7 +21,6 @@
     "Meta-ExternalAgent",
     "Meta-ExternalFetcher",
     "FacebookBot",
-    "facebookexternalhit",
     "PerplexityBot",
     "Bytespider",
     "Google-Extended",
